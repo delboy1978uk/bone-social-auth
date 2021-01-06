@@ -49,6 +49,10 @@ class SocialLogin implements ExtensionInterface
      */
     private function addProviderLoginLink(string $provider, array $data): string
     {
+        if (!$data['enabled']) {
+            return '';
+        }
+
         $icon = $this->getIcon($provider);
         $color = $this->getColor($provider);
 

@@ -4,12 +4,15 @@ namespace Bone\SocialAuth;
 
 use Barnacle\Container;
 use Barnacle\RegistrationInterface;
+use Bone\Controller\Init;
 use Bone\Router\Router;
 use Bone\Router\RouterConfigInterface;
 use Bone\SocialAuth\Controller\SocialLoginController;
 use Bone\SocialAuth\Service\SocialAuthService;
 use Bone\SocialAuth\View\Extension\SocialLogin;
 use Bone\View\ViewRegistrationInterface;
+use Del\Service\UserService;
+use Del\SessionManager;
 
 class SocialAuthPackage implements RegistrationInterface, RouterConfigInterface, ViewRegistrationInterface
 {
@@ -19,9 +22,21 @@ class SocialAuthPackage implements RegistrationInterface, RouterConfigInterface,
     public function addToContainer(Container $c)
     {
         $c[SocialLoginController::class] = $c->factory(function (Container $c) {
+
+            $loginRedirectRoute = '/user/home';
+
+            if ($c->has('bone-user')) {
+                $options = $c->get('bone-user');
+                $loginRedirectRoute = $options['loginRedirectRoute'] ?? '/user/home';
+            }
+
+            $uploadsDir = $c->get('uploads_dir');
+            $imgDir = $c->get('image_dir');
             $config = $c->has('bone-social-auth') ? $c->get('bone-social-auth') : [];
-            $service = new SocialAuthService($config);
-            $controller = new SocialLoginController($service);
+            $userService = $c->get(UserService::class);
+            $service = new SocialAuthService($config, $userService, $uploadsDir, $imgDir);
+            $service->setSession($c->get(SessionManager::class));
+            $controller = new SocialLoginController($service, $loginRedirectRoute);
 
             return $controller;
         });

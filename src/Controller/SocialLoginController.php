@@ -4,6 +4,7 @@ namespace Bone\SocialAuth\Controller;
 
 use Bone\Http\Response\HtmlResponse;
 use Bone\SocialAuth\Service\SocialAuthService;
+use Laminas\Diactoros\Response\RedirectResponse;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
@@ -12,13 +13,17 @@ class SocialLoginController
     /** @var SocialAuthService $service */
     private $service;
 
+    /** @var string $loginRedirectRoute */
+    private $loginRedirectRoute;
+
     /**
      * SocialLoginController constructor.
      * @param SocialAuthService $service
      */
-    public function __construct(SocialAuthService $service)
+    public function __construct(SocialAuthService $service, string $loginRedirectRoute)
     {
         $this->service = $service;
+        $this->loginRedirectRoute = $loginRedirectRoute;
     }
 
     /**
@@ -32,10 +37,12 @@ class SocialLoginController
 
         if ($adapter->isConnected()) {
             $userProfile = $adapter->getUserProfile();
-            var_dump($userProfile);
             $adapter->disconnect();
+            $user = $this->service->logInUser($userProfile);
+
+            return new RedirectResponse($this->loginRedirectRoute);
         }
 
-        return new HtmlResponse($provider);
+        throw new Exception('Something went wrong', 500);
     }
 }

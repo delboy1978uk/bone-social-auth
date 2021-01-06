@@ -1,12 +1,11 @@
-# socialauth
-SocialAuth package for Bone Mvc Framework
+# bone-social-auth
+SocialAuth package for Bone Framework using HybridAuth
 ## installation
 Use Composer
 ```
 composer require delboy1978uk/bone-social-auth
 ```
-## usage
-Simply add to the `config/packages.php`
+Simply add to the `config/packages.php` after the Bone User Package
 ```php
 <?php
 
@@ -21,9 +20,49 @@ return [
     // ...
 ];
 ```
-You will probably want to have the social links on  your `/user/login` link, so copy the View files from 
+## settings
+Create a settings file in the `config/` folder called `bone-social-auth.php`:
+```php
+return [
+    'bone-social-auth' => [
+        'callback' => 'https://awesome.scot/user/login/via',
+        'providers' => [
+            'Twitter' => [
+                'enabled' => false,
+                'keys' => [
+                    'id' => '...',
+                    'secret' => '...',
+                ]
+            ],
+            'Google' => [
+                'enabled' => true,
+                'keys' => [
+                    'id' => '...',
+                    'secret' => '...',
+                ]
+            ],
+            'Github' => [
+                'enabled' => true,
+                'keys' => [
+                    'id' => '...',
+                    'secret' => '...',
+                ]
+            ],
+            'Facebook' => [
+                'enabled' => true,
+                'keys' => [
+                    'key' => '...',
+                    'secret' => '...',
+                ]
+            ],
+        ]
+    ],
+];
+```
+### usage
+You will probably want to have the social links on your `/user/login` link, so copy the View files from 
 `vendor/delboy1978uk/bone-user/View/BoneUser` to the main App view `src/View/BoneUser` and add the followimg
-config to `config/views.php`:
+config to `config/views.php` in order to override them:
 ```php
 return [
     'views' => [
