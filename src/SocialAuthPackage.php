@@ -6,6 +6,7 @@ use Barnacle\Container;
 use Barnacle\RegistrationInterface;
 use Bone\Router\Router;
 use Bone\Router\RouterConfigInterface;
+use Bone\SocialAuth\Controller\SocialLoginController;
 use Bone\SocialAuth\View\Extension\SocialLogin;
 use Bone\View\ViewRegistrationInterface;
 
@@ -25,7 +26,7 @@ class SocialAuthPackage implements RegistrationInterface, RouterConfigInterface,
      */
     public function addRoutes(Container $c, Router $router)
     {
-
+        $router->map('GET', '/user/login/via/{provider:word}', [SocialLoginController::class, 'login']);
     }
 
     /**
