@@ -37,8 +37,8 @@ class SocialLogin implements ExtensionInterface
     {
         $html = '';
 
-        foreach ($this->config as $provider => $data) {
-            $html .= $this->addProviderLoginLink($provider, $data);
+        foreach ($this->config['providers'] as $provider => $data) {
+            $html .= $this->addProviderLoginLink(strtolower($provider), $data);
         }
 
         return $html;
