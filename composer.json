@@ -1,5 +1,5 @@
 {
-    "name": "delboy1978uk\/bone-social-auth",
+    "name": "delboy1978uk/bone-social-auth",
     "description": "SocialAuth package for Bone Framework",
     "license": "MIT",
     "authors": [
@@ -9,14 +9,20 @@
         }
     ],
     "require": {
-        "hybridauth/hybridauth": "^3.6"
+        "hybridauth/hybridauth": "^3.6",
+        "delboy1978uk/bone": "^3.9",
+        "delboy1978uk/bone-user": "^2.0",
+        "codeception/codeception": "^4.1",
+        "codeception/module-phpbrowser": "^1.0.0",
+        "codeception/module-asserts": "^1.0.0"
     },
     "require-dev": {
-        "roave\/security-advisories": "dev-master"
+        "roave/security-advisories": "dev-master"
     },
     "autoload": {
         "psr-4": {
-            "Bone\\SocialAuth\\": "src\/"
+            "Bone\\SocialAuth\\": "src/",
+            "BoneTest\\SocialAuth\\": "tests/unit"
         }
     }
 }

@@ -4,6 +4,7 @@ namespace Bone\SocialAuth\Controller;
 
 use Bone\Http\Response\HtmlResponse;
 use Bone\SocialAuth\Service\SocialAuthService;
+use Exception;
 use Laminas\Diactoros\Response\RedirectResponse;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -38,7 +39,7 @@ class SocialLoginController
         if ($adapter->isConnected()) {
             $userProfile = $adapter->getUserProfile();
             $adapter->disconnect();
-            $user = $this->service->logInUser($userProfile);
+            $this->service->logInUser($userProfile);
 
             return new RedirectResponse($this->loginRedirectRoute);
         }

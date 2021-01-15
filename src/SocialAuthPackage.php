@@ -8,6 +8,7 @@ use Bone\Controller\Init;
 use Bone\Router\Router;
 use Bone\Router\RouterConfigInterface;
 use Bone\SocialAuth\Controller\SocialLoginController;
+use Bone\SocialAuth\Service\SocialAuthAdapterFactory;
 use Bone\SocialAuth\Service\SocialAuthService;
 use Bone\SocialAuth\View\Extension\SocialLogin;
 use Bone\View\ViewRegistrationInterface;
@@ -34,7 +35,7 @@ class SocialAuthPackage implements RegistrationInterface, RouterConfigInterface,
             $imgDir = $c->get('image_dir');
             $config = $c->has('bone-social-auth') ? $c->get('bone-social-auth') : [];
             $userService = $c->get(UserService::class);
-            $service = new SocialAuthService($config, $userService, $uploadsDir, $imgDir);
+            $service = new SocialAuthService($config, $userService, $uploadsDir, $imgDir, new SocialAuthAdapterFactory());
             $service->setSession($c->get(SessionManager::class));
             $controller = new SocialLoginController($service, $loginRedirectRoute);
 
@@ -65,7 +66,7 @@ class SocialAuthPackage implements RegistrationInterface, RouterConfigInterface,
      */
     public function addViewExtensions(Container $c): array
     {
-        $config = $c->has('bone-social-auth') ? $c->get('bone-social-auth') : [];
+        $config = $c->has('bone-social-auth') ? $c->get('bone-social-auth') : ['providers' => ''];
 
         return [
             new SocialLogin($config),

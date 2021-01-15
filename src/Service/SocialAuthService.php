@@ -12,6 +12,7 @@ use Del\Service\UserService;
 use Del\Value\User\State;
 use Exception;
 use Hybridauth\Hybridauth;
+use Hybridauth\Adapter\AdapterInterface;
 use Hybridauth\User\Profile;
 
 class SocialAuthService implements SessionAwareInterface
@@ -30,23 +31,33 @@ class SocialAuthService implements SessionAwareInterface
     /** @var string $imgDir */
     private $imgDir;
 
+    /** @var SocialAuthAdapterFactory $factory */
+    private $factory;
+
     /**
      * SocialAuthService constructor.
      * @param array $config
      */
-    public function __construct(array $config, UserService $userService, string $uploadsDir, string $imgDir)
+    public function __construct(array $config, UserService $userService, string $uploadsDir, string $imgDir, SocialAuthAdapterFactory $factory)
     {
         $this->config = $config;
         $this->userService = $userService;
         $this->uploadsDir = $uploadsDir;
         $this->imgDir = $imgDir;
+        $this->factory = $factory;
     }
 
-    public function getAuthAdapter(string $provider)
+    /**
+     * @param string $provider
+     * @return \Hybridauth\Adapter\AdapterInterface
+     * @throws \Hybridauth\Exception\InvalidArgumentException
+     * @throws \Hybridauth\Exception\UnexpectedValueException
+     */
+    public function getAuthAdapter(string $provider): AdapterInterface
     {
         if (array_key_exists($provider, $this->config['providers'])) {
             $this->config['callback'] .= '/' . strtolower($provider);
-            $hybridauth = new Hybridauth($this->config);
+            $hybridauth = $this->factory->factory($this->config);
             $adapter = $hybridauth->authenticate($provider);
 
             return $adapter;
