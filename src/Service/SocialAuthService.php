@@ -4,6 +4,7 @@ namespace Bone\SocialAuth\Service;
 
 use Bone\Server\SessionAwareInterface;
 use Bone\Server\Traits\HasSessionTrait;
+use Bone\SocialAuth\Provider\CustomOauth2Provider;
 use DateTime;
 use Del\Entity\User;
 use Del\Factory\CountryFactory;
@@ -21,6 +22,9 @@ class SocialAuthService implements SessionAwareInterface
 
     /** @var array $config */
     private $config;
+
+    /** @var array $customProviderConfigs */
+    private $customProviderConfigs = [];
 
     /** @var UserService $userService */
     private $userService;
@@ -45,6 +49,11 @@ class SocialAuthService implements SessionAwareInterface
         $this->uploadsDir = $uploadsDir;
         $this->imgDir = $imgDir;
         $this->factory = $factory;
+
+        if (array_key_exists('custom', $this->config)) {
+            $this->customProviderConfigs = $this->config['custom']['providers'];
+            unset ($this->config['custom']);
+        }
     }
 
     /**
@@ -55,15 +64,29 @@ class SocialAuthService implements SessionAwareInterface
      */
     public function getAuthAdapter(string $provider): AdapterInterface
     {
-        if (array_key_exists($provider, $this->config['providers'])) {
-            $this->config['callback'] .= '/' . strtolower($provider);
-            $hybridauth = $this->factory->factory($this->config);
-            $adapter = $hybridauth->authenticate($provider);
+        if (array_key_exists($provider, $this->customProviderConfigs)) {
+            $this->config['providers'][$provider] = $this->customProviderConfigs[$provider];
+        }
 
-            return $adapter;
+        if (array_key_exists($provider, $this->config['providers'])) {
+            return $this->getAdapter($this->config, $provider);
         }
 
         throw new Exception('SocialAuth Adapter not found', 404);
+    }
+
+    /**
+     * @param array $config
+     * @param string $provider
+     * @return AdapterInterface
+     */
+    private function getAdapter(array $config, string $provider): AdapterInterface
+    {
+        $config['callback'] .= '/' . strtolower($provider);
+        $hybridauth = $this->factory->factory($config);
+        $adapter = $hybridauth->authenticate($provider);
+
+        return $adapter;
     }
 
     /**

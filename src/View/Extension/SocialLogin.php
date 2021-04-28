@@ -14,12 +14,22 @@ class SocialLogin implements ExtensionInterface
     private $config;
 
     /**
+     * @var array $customProviderConfigs
+     */
+    private $customProviderConfigs;
+
+    /**
      * SocialLogin constructor.
      * @param array $config
      */
     public function __construct(array $config)
     {
         $this->config = $config;
+
+        if (array_key_exists('custom', $this->config)) {
+            $this->customProviderConfigs = $this->config['custom'];
+            unset ($this->config['custom']);
+        }
     }
 
     /**
@@ -41,6 +51,10 @@ class SocialLogin implements ExtensionInterface
             $html .= $this->addProviderLoginLink(strtolower($provider), $data);
         }
 
+        foreach ($this->customProviderConfigs['providers'] as $provider => $data) {
+            $html .= $this->addCustomProviderLoginLink(strtolower($provider), $data);
+        }
+
         return $html;
     }
 
@@ -55,6 +69,21 @@ class SocialLogin implements ExtensionInterface
 
         $icon = $this->getIcon($provider);
         $color = $this->getColor($provider);
+
+        return '<a class="btn btn-primary rounded-circle m5" style="background-color: ' . $color . '" href="/user/login/via/' . $provider . '">' . $icon  . '</a>';
+    }
+
+    /**
+     * @return string
+     */
+    private function addCustomProviderLoginLink(string $provider, array $data): string
+    {
+        if (!$data['enabled']) {
+            return '';
+        }
+
+        $icon = $data['icon'];
+        $color = $data['color'];
 
         return '<a class="btn btn-primary rounded-circle m5" style="background-color: ' . $color . '" href="/user/login/via/' . $provider . '">' . $icon  . '</a>';
     }
