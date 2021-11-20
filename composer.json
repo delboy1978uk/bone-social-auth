@@ -11,13 +11,13 @@
     "require": {
         "hybridauth/hybridauth": "^3.6",
         "delboy1978uk/bone": "^3.9",
-        "delboy1978uk/bone-user": "^2.0",
+        "delboy1978uk/bone-user": "^2.0"
+    },
+    "require-dev": {
+        "roave/security-advisories": "dev-latest",
         "codeception/codeception": "^4.1",
         "codeception/module-phpbrowser": "^1.0.0",
         "codeception/module-asserts": "^1.0.0"
-    },
-    "require-dev": {
-        "roave/security-advisories": "dev-master"
     },
     "autoload": {
         "psr-4": {
