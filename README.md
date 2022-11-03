@@ -2,8 +2,6 @@
 [![Latest Stable Version](https://poser.pugx.org/delboy1978uk/bone-social-auth/v/stable)](https://packagist.org/packages/delboy1978uk/bone-social-auth)
 ![build status](https://github.com/delboy1978uk/bone-social-auth/actions/workflows/master.yml/badge.svg) [![Code Coverage](https://scrutinizer-ci.com/g/delboy1978uk/bone-social-auth/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/delboy1978uk/bone-social-auth/?branch=master) [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/delboy1978uk/bone-social-auth/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/delboy1978uk/bone-social-auth/?branch=master) [![License](https://poser.pugx.org/delboy1978uk/bone-social-auth/license)](https://packagist.org/packages/delboy1978uk/bone-social-auth)
 
-
-
 SocialAuth package for Bone Framework using HybridAuth
 ## installation
 Use Composer
