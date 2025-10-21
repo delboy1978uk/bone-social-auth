@@ -21,10 +21,10 @@ class SocialAuthServiceTest extends Unit
 
     protected function _before()
     {
-        $userService = $this->make(UserService::class);
-        $factory = $this->make(SocialAuthAdapterFactory::class);
-        $auth = $this->make(Hybridauth::class);
-        $adapter = $this->make(AdapterInterface::class);
+        $userService = $this->createMock(UserService::class);
+        $factory = $this->createMock(SocialAuthAdapterFactory::class);
+        $auth = $this->createMock(Hybridauth::class);
+        $adapter = $this->createMock(AdapterInterface::class);
         $factory->method('factory')->willReturn($auth);
         $auth->method('authenticate')->willReturn($adapter);
         $config = [
