@@ -131,8 +131,8 @@ class SocialAuthService implements SessionAwareInterface
             $person->setImage($file);
         }
 
-        $person->setFirstname($profile->firstName);
-        $person->setLastname($profile->lastName);
+        $person->setFirstname($profile->firstName ?? '');
+        $person->setLastname($profile->lastName ?? '');
 
         $this->userService->getPersonService()->savePerson($person);
         $this->userService->changePassword($user, microtime()); // this saves user too
