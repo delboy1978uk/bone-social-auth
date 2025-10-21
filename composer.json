@@ -22,5 +22,10 @@
             "Bone\\SocialAuth\\": "src/",
             "BoneTest\\SocialAuth\\": "tests/unit"
         }
+    },
+    "config": {
+        "allow-plugins": {
+            "phpro/grumphp": false
+        }
     }
 }
