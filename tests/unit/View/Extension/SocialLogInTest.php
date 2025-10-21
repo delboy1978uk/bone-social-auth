@@ -4,9 +4,9 @@ namespace BoneTest\SocialAuth\View\Extension;
 
 use Bone\SocialAuth\View\Extension\SocialLogin;
 use Bone\View\ViewEngine;
-use Codeception\TestCase\Test;
+use Codeception\Test\Unit;
 
-class SocialLogInTest extends Test
+class SocialLogInTest extends Unit
 {
     /**
      * @var SocialLogin

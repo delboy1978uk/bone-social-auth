@@ -6,11 +6,11 @@ use Barnacle\Container;
 use Bone\Router\Router;
 use Bone\SocialAuth\Controller\SocialLoginController;
 use Bone\SocialAuth\SocialAuthPackage;
-use Codeception\TestCase\Test;
+use Codeception\Test\Unit;
 use Del\Service\UserService;
 use Del\SessionManager;
 
-class PackageTest extends Test
+class PackageTest extends Unit
 {
     /**
      * @var SocialAuthPackage

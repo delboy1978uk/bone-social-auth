@@ -4,7 +4,7 @@ namespace BoneTest\SocialAuth\Service;
 
 use Bone\SocialAuth\Service\SocialAuthAdapterFactory;
 use Bone\SocialAuth\Service\SocialAuthService;
-use Codeception\TestCase\Test;
+use Codeception\Test\Unit;
 use Del\Entity\User;
 use Del\Service\UserService;
 use Del\SessionManager;
@@ -12,7 +12,7 @@ use Hybridauth\Adapter\AdapterInterface;
 use Hybridauth\Hybridauth;
 use Hybridauth\User\Profile;
 
-class SocialAuthServiceTest extends Test
+class SocialAuthServiceTest extends Unit
 {
     /**
      * @var SocialAuthService
@@ -21,10 +21,10 @@ class SocialAuthServiceTest extends Test
 
     protected function _before()
     {
-        $userService = $this->createMock(UserService::class);
-        $factory = $this->createMock(SocialAuthAdapterFactory::class);
-        $auth = $this->createMock(Hybridauth::class);
-        $adapter = $this->createMock(AdapterInterface::class);
+        $userService = $this->make(UserService::class);
+        $factory = $this->make(SocialAuthAdapterFactory::class);
+        $auth = $this->make(Hybridauth::class);
+        $adapter = $this->make(AdapterInterface::class);
         $factory->method('factory')->willReturn($auth);
         $auth->method('authenticate')->willReturn($adapter);
         $config = [
@@ -75,7 +75,6 @@ class SocialAuthServiceTest extends Test
         $profile->email = 'man@work.com';
         $mirror = new \ReflectionClass(SocialAuthService::class);
         $prop = $mirror->getProperty('userService');
-        $prop->setAccessible(true);
         $userService = $prop->getValue($this->service);
         $userService->method('findUserByEmail')->willReturn(new User());
         $this->service->logInUser($profile);
