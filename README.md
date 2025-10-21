@@ -30,8 +30,8 @@ return [
     'bone-social-auth' => [
         'callback' => 'https://awesome.scot/user/login/via',
         'providers' => [
-            'Twitter' => [
-                'enabled' => false,
+            'X' => [
+                'enabled' => true,
                 'keys' => [
                     'id' => '...',
                     'secret' => '...',
@@ -58,7 +58,22 @@ return [
                     'secret' => '...',
                 ]
             ],
-        ]
+        ],
+         'custom' => [
+             // use this config to auth with your own Bone FrameworkOAuth2 server
+            'providers' => [
+                'Boneframework' => [
+                    'adapter' => \Bone\SocialAuth\Provider\BoneFrameworkProvider::class,
+                    'enabled' => true,
+                    'keys' => [
+                        'id' => '32815de2c0a25d239ff0585674c938a9',
+                        'secret' => 'JDJ5JDEyJC9iT3hXVjRCeTdJL2ZPSlZOd2xFRnVPZ09KNW9GL2RDV2I0dTcwdUNnNWpHcGt2SXQzdWJL',
+                    ],
+                    'icon' => 'bone',
+                    'color' => 'black'
+                ],
+            ],
+        ],
     ],
 ];
 ```
@@ -78,3 +93,13 @@ In any view file, and if overriding `bone-user` then particularly `src/App/View/
 <?= $this->socialAuth() ?>
 ```
 which will display some links to log you in. Once logged in you will have a standard bone-user.
+
+#### auth via a Bone Framework OAuth Server
+Use the custom config above, you can extend `Bone\SocialAuth\Provider\BoneFrameworkProvider` and define the following :
+```php
+    protected $scope = 'basic';
+    protected $apiBaseUrl = 'https://boneframework.docker/api';
+    protected $authorizeUrl = 'https://boneframework.docker/oauth2/authorize';
+    protected $accessTokenUrl = 'https://boneframework.docker/oauth2/token';
+    protected $callback = 'https://boneframework.docker/oauth2/token';
+```
