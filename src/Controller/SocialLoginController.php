@@ -2,7 +2,6 @@
 
 namespace Bone\SocialAuth\Controller;
 
-use Bone\Http\Response\HtmlResponse;
 use Bone\SocialAuth\Service\SocialAuthService;
 use Exception;
 use Laminas\Diactoros\Response\RedirectResponse;
@@ -11,26 +10,11 @@ use Psr\Http\Message\ServerRequestInterface;
 
 class SocialLoginController
 {
-    /** @var SocialAuthService $service */
-    private $service;
+    public function __construct(
+        private SocialAuthService $service,
+        private string $loginRedirectRoute
+    ) {}
 
-    /** @var string $loginRedirectRoute */
-    private $loginRedirectRoute;
-
-    /**
-     * SocialLoginController constructor.
-     * @param SocialAuthService $service
-     */
-    public function __construct(SocialAuthService $service, string $loginRedirectRoute)
-    {
-        $this->service = $service;
-        $this->loginRedirectRoute = $loginRedirectRoute;
-    }
-
-    /**
-     * @param ServerRequestInterface $request
-     * @return ResponseInterface
-     */
     public function login(ServerRequestInterface $request): ResponseInterface
     {
         $provider = \ucfirst($request->getAttribute('provider'));

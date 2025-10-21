@@ -9,9 +9,9 @@
         }
     ],
     "require": {
-        "hybridauth/hybridauth": "^3.6",
-        "delboy1978uk/bone": "^3.9",
-        "delboy1978uk/bone-user": "^2.0"
+        "hybridauth/hybridauth": "^3.12",
+        "boneframework/bone": "^3.12",
+        "delboy1978uk/bone-user": "^2.5"
     },
     "require-dev": {
         "roave/security-advisories": "dev-latest",

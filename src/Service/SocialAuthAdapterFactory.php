@@ -2,7 +2,6 @@
 
 namespace Bone\SocialAuth\Service;
 
-use Hybridauth\Adapter\AdapterInterface;
 use Hybridauth\Hybridauth;
 
 class SocialAuthAdapterFactory

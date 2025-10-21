@@ -57,8 +57,6 @@ class SocialAuthService implements SessionAwareInterface
     }
 
     /**
-     * @param string $provider
-     * @return \Hybridauth\Adapter\AdapterInterface
      * @throws \Hybridauth\Exception\InvalidArgumentException
      * @throws \Hybridauth\Exception\UnexpectedValueException
      */
@@ -83,10 +81,8 @@ class SocialAuthService implements SessionAwareInterface
     private function getAdapter(array $config, string $provider): AdapterInterface
     {
         $config['callback'] .= '/' . strtolower($provider);
-        $hybridauth = $this->factory->factory($config);
-        $adapter = $hybridauth->authenticate($provider);
 
-        return $adapter;
+        return $this->factory->factory($config)->authenticate($provider);
     }
 
     /**
@@ -138,7 +134,7 @@ class SocialAuthService implements SessionAwareInterface
         $person->setFirstname($profile->firstName);
         $person->setLastname($profile->lastName);
 
-        $this->userService->getPersonSvc()->savePerson($person);
+        $this->userService->getPersonService()->savePerson($person);
         $this->userService->changePassword($user, microtime()); // this saves user too
 
         return $user;
