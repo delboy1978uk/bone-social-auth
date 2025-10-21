@@ -3,10 +3,10 @@
 namespace BoneTest\SocialAuth\Service;
 
 use Bone\SocialAuth\Service\SocialAuthAdapterFactory;
-use Codeception\TestCase\Test;
+use Codeception\Test\Unit;
 use Hybridauth\Hybridauth;
 
-class SocialAuthAdapterFactoryTest extends Test
+class SocialAuthAdapterFactoryTest extends Unit
 {
     public function testFactory()
     {

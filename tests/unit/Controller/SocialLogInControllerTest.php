@@ -4,13 +4,13 @@ namespace BoneTest\SocialAuth\Controller;
 
 use Bone\SocialAuth\Controller\SocialLoginController;
 use Bone\SocialAuth\Service\SocialAuthService;
-use Codeception\TestCase\Test;
+use Codeception\Test\Unit;
 use Hybridauth\Adapter\AdapterInterface;
 use Hybridauth\User\Profile;
 use Laminas\Diactoros\ServerRequest;
 use Psr\Http\Message\ResponseInterface;
 
-class SocialLogInControllerTest extends Test
+class SocialLogInControllerTest extends Unit
 {
     /**
      * @var SocialLoginController
