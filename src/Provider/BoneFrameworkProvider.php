@@ -89,26 +89,7 @@ class BoneFrameworkProvider extends OAuth2
 
     function getUserProfile()
     {
-        /* Send a signed http request to provider API to request user's profile */
         $response = $this->apiRequest('/user/profile');
-
-        /* Example of how to instantiate a user profile and how to use data collection
-           assuming user/profile returns this response:
-            {
-                "id": "98131543",
-                "firstName": "John",
-                "lastName": "Smith",
-                "age": 25,
-                "emails : "John.Smith@domain.ltd",
-                "address": {
-                    "streetAddress": "21 2nd Street",
-                    "city": "New York",
-                    "state": "NY",
-                    "postalCode": "10021-3100"
-                }
-            }
-        */
-
         $data = (new Data\Collection($response))->toArray();
         $userProfile = new User\Profile();
         $userProfile->identifier = $data['id'];
