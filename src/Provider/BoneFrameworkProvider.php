@@ -90,7 +90,7 @@ class BoneFrameworkProvider extends OAuth2
     function getUserProfile()
     {
         /* Send a signed http request to provider API to request user's profile */
-        $response = $this->apiRequest('/user/me');
+        $response = $this->apiRequest('/user/profile');
 
         /* Example of how to instantiate a user profile and how to use data collection
            assuming user/profile returns this response:
@@ -109,24 +109,13 @@ class BoneFrameworkProvider extends OAuth2
             }
         */
 
-//        $collection = new Data\Collection($response);
-//
-//        $userProfile = new User\Profile();
-//
-//        if (!$data->exists('id')) {
-//            throw new UnexpectedValueException('Provider API returned an unexpected response.');
-//        }
-//
-//        $userProfile->identifier = $collection->get('id');
-//        $userProfile->email = $collection->get('email');
-//        $userProfile->displayName = $data->get('firstName') . ' ' . $data->get('lastName') ;
-//        $userProfile->address = $collection->filter('address')->get('streetAddress');
-//        $userProfile->city = $collection->filter('address')->get('city');
-//
-//        if ($collection->exists('image')) {
-//            $userProfile->photoURL = 'http://provider.ltd/users/' . $collection->get('image');
-//        }
-//
-//        return $userProfile;
+        $data = (new Data\Collection($response))->toArray();
+        $userProfile = new User\Profile();
+        $userProfile->identifier = $data['id'];
+        $userProfile->email = $data['email'];
+        $userProfile->displayName = $data['person']->firstname . ' ' . $data['person']->lastname;
+        $userProfile->photoURL = $this->apiBaseUrl . 'user/image';
+
+        return $userProfile;
     }
 }
